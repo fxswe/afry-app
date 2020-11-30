@@ -1,0 +1,7 @@
+
+.home {
+    background-image: url('/assets/img/Afry.jpg');
+    background-size: cover;
+    background-position: center center;
+    height: 600px;
+}

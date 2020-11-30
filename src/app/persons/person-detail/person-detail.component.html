@@ -1,0 +1,41 @@
+<div class="row">
+    <div class="col-xs-12">
+        <h1 *ngIf="!selectedPerson"> Create Person </h1>
+        <h1 *ngIf="selectedPerson"> Modify Person </h1>
+    </div>
+</div>
+<hr>
+<div class="row">
+    <div class="col-xs-3">
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input *ngIf="!selectedPerson" type="text" id="name" [(ngModel)]="personName" required class="form-control">
+            <p *ngIf="selectedPerson">{{selectedPerson.name}}</p>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-2">
+        <label for="companies">Company</label>
+        <kendo-combobox 
+        id="companies"
+        [data]="companies$ | async"
+        [textField]="'name'"
+        [valueField]="'name'"
+        [(ngModel)]="selectedCompany">
+        </kendo-combobox>
+    </div>
+</div>
+<hr>
+<div class="row">
+    <div *ngIf="!selectedPerson" class="col-xs-2">
+        <button (click)="addPerson()" class="btn btn-success">Add Person</button>
+    </div>
+    <div *ngIf="selectedPerson" class="col-xs-2">
+        <button  (click)="updatePerson()" class="btn btn-success">Update</button>
+    </div>
+    <div *ngIf="!selectedPerson" class="col-xs-2">
+        <button  (click)="clearPerson()" class="btn btn-success">Clear</button>
+    </div>
+</div>
+

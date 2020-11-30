@@ -1,0 +1,19 @@
+<div class="row">
+    <div class="col-xs-12">
+        <h2>List of unemployed persons</h2>
+    </div>
+</div>
+<hr>
+<div class="row">
+    <div class="col-xs-6">
+        <p *ngIf="unemployedPersons.length < 1">There are no unmployed persons.</p>
+        <a (click)="showPersonDetails(person)" class="list-group-item clearfix"
+            style="cursor:pointer"
+            *ngFor="let person of unemployedPersons; let i = index">
+            <h4 class="list-group-item-heading">{{ person.name }}</h4>
+        </a>
+    </div>
+    <div class="col-xs-6" *ngIf="showDetails">
+        <app-person-detail [selectedPerson]="selectedPerson"></app-person-detail>
+    </div>
+</div>
