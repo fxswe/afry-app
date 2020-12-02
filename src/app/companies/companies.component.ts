@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { PersonsService } from '../persons/persons.service';
 import { Company } from '../shared/models/company.model';
 import { Person } from '../shared/models/person.model';
@@ -11,10 +11,8 @@ import { CompaniesService } from './companies.service';
   styleUrls: ['./companies.component.css']
 })
 export class CompaniesComponent implements OnInit, OnDestroy {
-  companies$: Observable<Company[]>
   companiesSubscription: Subscription
   personsSubscription: Subscription
-  addCompanySubscription: Subscription
   deleteEmployeeSubscription: Subscription
   companies: Company[]
   persons: Person[]
@@ -27,15 +25,14 @@ export class CompaniesComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.companies$ = this.CompaniesService.getCompanies()
+    this.CompaniesService.getCompanies()
     this.companiesSubscription = this.CompaniesService.companies.subscribe((companies: Company[]) => {
       this.companies = companies
       if (this.selectedCompany) {
         const updatedCompany = this.companies.find(x => x.name == this.selectedCompany.name)
         this.setSelectedCompany(updatedCompany)
       }
-    }
-    )
+    })
     this.PersonsService.getPersons()
     this.personsSubscription = this.PersonsService.persons.subscribe((persons: Person[]) =>
       this.persons = persons
@@ -45,20 +42,18 @@ export class CompaniesComponent implements OnInit, OnDestroy {
     if (!this.validateCompany()) {
       return
     }
-    const company = {
+    const company: Company = {
       name: this.companyName,
       employees: []
     }
-    this.addCompanySubscription = this.CompaniesService.addCompany(company).subscribe(
-      x => this.companies$ = this.CompaniesService.getCompanies()
-    )
+    this.CompaniesService.addCompany(company)
   }
   deleteEmployee(employee: Person) {
     const companyToUpdate = this.companies.find(x => x.name == this.selectedCompany.name)
     const updatedEmployeeList = [...companyToUpdate.employees.filter(x => x.name != employee.name)]
     this.deleteEmployeeSubscription = this.CompaniesService.deleteCompanyEmployee(companyToUpdate, updatedEmployeeList).subscribe(
       x => {
-        this.companies$ = this.CompaniesService.getCompanies()
+        this.CompaniesService.getCompanies()
         this.setPersonUnemployed(employee)
       }
     )
@@ -87,9 +82,6 @@ export class CompaniesComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.companiesSubscription.unsubscribe()
     this.personsSubscription.unsubscribe()
-    if (this.addCompanySubscription) {
-      this.addCompanySubscription.unsubscribe()
-    }
     if (this.deleteEmployeeSubscription) {
       this.deleteEmployeeSubscription.unsubscribe()
     }

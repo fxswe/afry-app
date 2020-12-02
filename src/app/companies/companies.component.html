@@ -12,7 +12,7 @@
 <div class="row">
     <div class="col-xs-6">
         <a style="cursor: pointer;" (click)="setSelectedCompany(company)" class="list-group-item clearfix"
-            *ngFor="let company of companies$ | async">
+            *ngFor="let company of companies">
             <h4 class="list-group-item-heading">{{ company.name }}</h4>
         </a>
     </div>

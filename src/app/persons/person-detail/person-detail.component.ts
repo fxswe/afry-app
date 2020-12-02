@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { CompaniesService } from 'src/app/companies/companies.service';
 import { Company } from 'src/app/shared/models/company.model';
 import { Person } from 'src/app/shared/models/person.model';
@@ -20,7 +20,6 @@ export class PersonDetailComponent implements OnInit {
     return this._selectedPerson;
   }
   persons: Person[]
-  companies$: Observable<Company[]>
   companiesSubscription: Subscription
   companies: Company[]
   selectedCompany: Company
@@ -30,7 +29,7 @@ export class PersonDetailComponent implements OnInit {
     private CompaniesService: CompaniesService
   ) { }
   ngOnInit() {
-    this.companies$ = this.CompaniesService.getCompanies()
+    this.CompaniesService.getCompanies()
     this.companiesSubscription = this.CompaniesService.companies.subscribe((companies: Company[]) =>
     this.companies = companies
   )

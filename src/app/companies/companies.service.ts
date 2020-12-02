@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Company } from '../shared/models/company.model';
 import { Person } from '../shared/models/person.model';
@@ -14,7 +14,7 @@ export class CompaniesService {
 
   constructor(private http: HttpClient) { }
 
-  getCompanies(): Observable<Company[]> {
+  getCompanies() {
     return this.http.get<Company[]>('https://afry-app.firebaseio.com/companies.json')
       .pipe(
         map(response => {
@@ -25,10 +25,12 @@ export class CompaniesService {
          this.companies.next(companies)
          return companies
         })
-      )
+      ).subscribe()
   }
   addCompany(company: Company) {
-    return this.http.post('https://afry-app.firebaseio.com/companies.json', company)
+    return this.http.post('https://afry-app.firebaseio.com/companies.json', company).subscribe(
+        x => this.getCompanies()
+      )
   }
   updateCompanyEmployee(company: Company) {
     return this.http.put(`https://afry-app.firebaseio.com/companies/${company.id}.json`, company).subscribe()
