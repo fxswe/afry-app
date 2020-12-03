@@ -11,18 +11,19 @@
 <hr>
 <div class="row">
     <div class="col-xs-6">
-        <a style="cursor: pointer;" (click)="setSelectedCompany(company)" class="list-group-item clearfix"
-            *ngFor="let company of companies">
+        <a style="cursor: pointer;"  class="list-group-item clearfix"
+            *ngFor="let company of companies"
+            (click)="setSelectedCompany(company)">
             <h4 class="list-group-item-heading">{{ company.name }}</h4>
         </a>
     </div>
     <div *ngIf="selectedCompany" class="col-xs-6">
         <h3>Company {{selectedCompany.name}}</h3>
-        <p *ngIf="selectedCompany.employees">Employees</p>
         <p *ngIf="!selectedCompany.employees">There are no employees in the company.</p>
+        <p *ngIf="selectedCompany.employees">Employees</p>
         <div *ngIf="selectedCompany.employees">
             <a class="list-group-item clearfix" *ngFor="let employee of selectedCompany.employees">
-                <div class="col-xs-12 flex">
+                <div class="col-xs-12 flex"> 
                     <div class="col-xs-6">
                         <h4 class="list-group-item-heading">{{ employee.name }}</h4>
                     </div>

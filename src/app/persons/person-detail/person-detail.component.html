@@ -10,7 +10,7 @@
         <div class="form-group">
             <label for="name">Name</label>
             <input *ngIf="!selectedPerson" type="text" id="name" [(ngModel)]="personName" required class="form-control">
-            <p *ngIf="selectedPerson">{{selectedPerson.name}}</p>
+            <p *ngIf="selectedPerson" id="name">{{selectedPerson.name}}</p>
         </div>
     </div>
 </div>

@@ -19,11 +19,11 @@ export class PersonsComponent implements OnInit {
   selectedPerson: Person
   constructor(
     private personsService: PersonsService,
-    private CompaniesService: CompaniesService
+    private companiesService: CompaniesService
   ) { }
   ngOnInit() {
-    this.CompaniesService.getCompanies()
-    this.companiesSubscription = this.CompaniesService.companies.subscribe(companies =>
+    this.companiesService.getCompanies()
+    this.companiesSubscription = this.companiesService.companies.subscribe(companies =>
       this.companies = companies
     )
     this.personsService.getPersons()

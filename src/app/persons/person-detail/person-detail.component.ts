@@ -74,6 +74,10 @@ export class PersonDetailComponent implements OnInit {
     }
     this.CompaniesService.updateCompanyEmployee(this.selectedCompany)
   }
+  clearPerson() {
+    this.personName = ""
+    this.selectedCompany = null
+  }
   validateCompany() {
     if (!this.selectedCompany) {
       alert('Company needs to be selected')
@@ -86,6 +90,11 @@ export class PersonDetailComponent implements OnInit {
       alert('Person name is mandatory')
       return false
     }
+    const regex = /[^A-Za-z]+/g
+    if(this.personName.match(regex)){
+      alert('Person name can only contain words')
+      return false
+    }
     const personAleadyExists = this.persons.find(x => x.name == this.personName)
     if (personAleadyExists) {
       alert('Person already exists!')
@@ -93,9 +102,5 @@ export class PersonDetailComponent implements OnInit {
       return false
     }
     return true
-  }
-  clearPerson() {
-    this.personName = ""
-    this.selectedCompany = null
   }
 }

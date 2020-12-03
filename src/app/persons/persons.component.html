@@ -9,7 +9,7 @@
         <p *ngIf="unemployedPersons.length < 1">There are no unmployed persons.</p>
         <a (click)="showPersonDetails(person)" class="list-group-item clearfix"
             style="cursor:pointer"
-            *ngFor="let person of unemployedPersons; let i = index">
+            *ngFor="let person of unemployedPersons">
             <h4 class="list-group-item-heading">{{ person.name }}</h4>
         </a>
     </div>

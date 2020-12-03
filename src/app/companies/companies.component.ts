@@ -47,10 +47,12 @@ export class CompaniesComponent implements OnInit, OnDestroy {
       employees: []
     }
     this.CompaniesService.addCompany(company)
+    this.companyName = ''
   }
   deleteEmployee(employee: Person) {
     const companyToUpdate = this.companies.find(x => x.name == this.selectedCompany.name)
-    const updatedEmployeeList = [...companyToUpdate.employees.filter(x => x.name != employee.name)]
+    const updatedEmployeeList = companyToUpdate.employees.filter(x => x.name != employee.name)
+
     this.deleteEmployeeSubscription = this.CompaniesService.deleteCompanyEmployee(companyToUpdate, updatedEmployeeList).subscribe(
       x => {
         this.CompaniesService.getCompanies()
@@ -63,12 +65,18 @@ export class CompaniesComponent implements OnInit, OnDestroy {
     personToUpdate.isEmployed = false
     this.PersonsService.updatePerson(personToUpdate)
   }
+
   setSelectedCompany(company: Company) {
     this.selectedCompany = company
   }
   validateCompany() {
     if (!this.companyName) {
       alert('Company name is mandatory')
+      return false
+    }
+    const regex = /[^A-Za-z0-9]+/g
+    if(this.companyName.match(regex)){
+      alert('Company name can only contain words and numbers')
       return false
     }
     const companyAleadyExists = this.companies.find(x => x.name == this.companyName)
